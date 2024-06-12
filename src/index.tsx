@@ -3,13 +3,30 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import '@mantine/core/styles.css';
+import { MantineProvider } from '@mantine/core'
+import './index.css'
 
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      networkMode: 'offlineFirst',
+      staleTime: 60 * 1000 * 10,
+      gcTime: 60 * 1000 * 15,
+    },
+  },
+})
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <QueryClientProvider client={queryClient}>
+      <MantineProvider>
+        <App />
+      </MantineProvider>
+    </QueryClientProvider>
   </React.StrictMode>
 );
 
